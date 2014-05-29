@@ -1,0 +1,120 @@
+.mirror
+{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
+}
+
+
+div
+{
+	z-index: 14;
+
+}
+
+.area
+{
+	z-index: 14;
+	height: 500px;
+	width: 1200px;
+}
+.console
+{
+	position: fixed;
+	height: 200px;
+	width: 200px;
+	z-index: 20;
+	top: 10;
+	right: 50;
+	background-color: #DFBE69;
+	opacity:0.9;
+	padding: 10px;
+	box-shadow: 5px 5px 5px #000;
+}
+.player
+{
+	position: absolute;
+	height: 75px;
+	width: 50px;
+	background: url("HulksheetSNES_2.png");
+	background-position: -1023px -149px;
+	z-index: 15;
+}
+
+.playerMove
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1023px -149px;
+}
+.playerMove2
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1073px -149px;
+}
+.playerMove3
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1123px -149px;
+}
+.playerMove4
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1173px -149px;
+}
+
+.playerJumpUp
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1023px -307px;
+}
+
+.playerJumpDown
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1073px -307px;
+}
+
+#myCanvas
+{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 10;
+}
+
+#myCanvasPart
+{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 9;
+}
+#imgCanvas
+{
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.playerSmash
+{
+	background: url("HulksheetSNES_2.png");
+	background-position: -1023px -74px;
+}
+.ground
+{
+	background: url("basic_ground_tileset.png");
+	height: 24px;
+	width: 24px;
+	position: absolute;
+}
+
+.background
+{
+	background-color: #58D3F7;
+	height: 24px;
+	width: 24px;
+	position: absolute;
+}
