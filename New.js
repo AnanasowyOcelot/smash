@@ -130,26 +130,31 @@ var jump = function() {
 
 var handleKeyPressed = function(e) {
 	
-	switch(event.keyCode) {
-		case keyCode.left:
-			moveLeft();
-			e.preventDefault();
-			break;
-		case keyCode.right:
-			moveRight();
-			e.preventDefault();
-			break;
-		case keyCode.space:
-			jump();
-			e.preventDefault();
-			break;
-		case keyCode.down: 
-			if(canSmash(player)) {
-				player.isSmashing = true
-			};
-			e.preventDefault();
-			break;
+	if(!e) {
+		e = window.event;
+	} else {
+			switch(e.keyCode) {
+			case keyCode.left:
+				moveLeft();
+				e.preventDefault();
+				break;
+			case keyCode.right:
+				moveRight();
+				e.preventDefault();
+				break;
+			case keyCode.space:
+				jump();
+				e.preventDefault();
+				break;
+			case keyCode.down: 
+				if(canSmash(player)) {
+					player.isSmashing = true
+				};
+				e.preventDefault();
+				break;
+		}
 	}
+
 };
 
 document.onkeydown = handleKeyPressed;
