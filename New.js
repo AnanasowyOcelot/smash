@@ -176,8 +176,9 @@ var hulkSmash = function(position) {
 	player.isSmashing = false;
 	var playerY = Math.floor(position.y / rozmiarPola);
 	var playerX = Math.floor(position.x / rozmiarPola);
-	for (var i = 0; i <20; i++) {
-		for (var j = 0; j < 20; j++) {
+	
+	for (var i = -20; i <20; i++) {
+		for (var j = -20; j < 20; j++) {
 				var row = mapTiles[playerY+i];
 
 			var updatedRow = replaceCharAt(row, '.', playerX + j);
@@ -257,6 +258,7 @@ var tick = function() {
 	}
 	window.scrollTo(player.position.x, player.position.y);
 	refreshConsol();
+	mapTilesAvalanche(mapTiles);
 };
 
 setInterval(tick, 30);

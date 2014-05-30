@@ -27,6 +27,21 @@ var mapTiles = [
 
 var rozmiarPola = 5;
 
+var mapTilesAvalanche = function(mapTiles) {
+	var replaceAt = function(string, index, character) {
+		return string.substr(0, index) + character + string.substr(index+character.length);
+	}
+	
+	for (var y=0; y<mapTiles.length - 1; y++) {
+		for (var x=0; x<mapTiles[y].length; x++) {
+			if (mapTiles[y].charAt(x) == "w" && mapTiles[y+1].charAt(x) == ".") {
+				mapTiles[y] = replaceAt(mapTiles[y], x, ".");
+				mapTiles[y+1] = replaceAt(mapTiles[y+1], x, "w");
+			}
+		}
+	}
+}
+
 
 
 var map = {
