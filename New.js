@@ -55,7 +55,7 @@ var keyCode = {
 	right: 39,
 	up: 38,
 	down: 40,
-    space: 32,
+    space: 32
 };
 
 var setPlayerPosition = function(position) {
@@ -177,12 +177,17 @@ var hulkSmash = function(position) {
 	var playerY = Math.floor(position.y / rozmiarPola);
 	var playerX = Math.floor(position.x / rozmiarPola);
 	
-	for (var i = -20; i <20; i++) {
-		for (var j = -20; j < 20; j++) {
-				var row = mapTiles[playerY+i];
+	for (var y = -20; y <20; y++) {
+		for (var x = -20; x < 20; x++) {
+			var yToRemove = playerY+y;
+            var xToRemove = playerX + x;
+            var vector = Math.sqrt((yToRemove - playerY)*(yToRemove - playerY) + (xToRemove - playerX)*(xToRemove - playerX))
+            var row = mapTiles[yToRemove];
+            if (vector < 10) {
+                var updatedRow = replaceCharAt(row, '.', xToRemove);
+                mapTiles[yToRemove] = updatedRow;
+            }
 
-			var updatedRow = replaceCharAt(row, '.', playerX + j);
-			mapTiles[playerY+i] = updatedRow;
 		}
 
 	}
@@ -258,7 +263,10 @@ var tick = function() {
 	}
 	window.scrollTo(player.position.x, player.position.y);
 	refreshConsol();
-	mapTilesAvalanche(mapTiles);
-};
 
+};
+var slowerTick = function() {
+    mapTilesAvalanche(mapTiles);
+}
 setInterval(tick, 30);
+setInterval(slowerTick, 80)
