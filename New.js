@@ -191,8 +191,7 @@ var hulkSmash = function(position) {
 		}
 
 	}
-	
-	drawCanvasLines();
+    drawCanvasLines();
 	//mapRefresh();
 };
 
