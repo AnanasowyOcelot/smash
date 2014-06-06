@@ -191,6 +191,30 @@ var hulkSmash = function(position) {
 		}
 
 	}
+    ParticleGenerator.addGenerator({
+        _ticksLeft: 2,
+        getStartX: function () {return position.x;},
+        getStartY: function () {return position.y + 50;},
+        getAmount: function () {return 5;},
+        getTicksLeft: function () {
+            this._ticksLeft --;
+            return this._ticksLeft;
+        },
+        getColor: function () {return 'black';},
+        applyForce: function() {return false;},
+        getSizeX: function(){
+            return 12;
+        },
+        getSizeY: function(){
+            return 14;
+        },
+        getSpeedX: function() {
+            return (Math.random() - 0.5) * 20;
+        },
+        getSpeedY: function() {
+            return (Math.random() - 1) * 20;
+        }
+    });
     drawCanvasLines();
 	//mapRefresh();
 };

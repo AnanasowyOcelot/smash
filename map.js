@@ -1,27 +1,6 @@
 var mapTiles = [
-	'...................................................',
-	'...................................................',
-	'...................................................',
-	'...................................................',
-	'...................................................',
-	'...................................................',
-	'...................................................',
-	'.............wwwwwwwwwwwww.........................',
-	'.............wwwwwwwwwwwww.....................wwww',
-	'.............wwwwwwwwwwwwww.................wwwwwww',
-	'.............wwwwwwwwwwwwwwwww...........wwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww.........wwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww',
-	'wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww'
+	'.........',
+	'wwwwwwwww'
 	];
 	
 

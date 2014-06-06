@@ -16,6 +16,7 @@ ParticleGenerator = (function () {
         this.ticksLeft = 0;
         this.toDelete = false;
         this.color = 'black';
+        this.applyForce = true;
     };
 
 
@@ -40,17 +41,7 @@ ParticleGenerator = (function () {
             y: 0
         };
     }
-    /*var canvasParticle = {
-     position: {
-     x: 50,
-     y: 450
-     },
-     speed: {
-     x: 10,
-     y: -10
-     },
-     weight: 1
-     };*/
+
     var c = document.getElementById("myCanvasPart");
     var ctx = c.getContext("2d");
 
@@ -94,19 +85,19 @@ ParticleGenerator = (function () {
     };
 
     var applyForce = function (canvasParticle, darkParticle) {
-        var particleDistanceX = darkParticle.position.x - canvasParticle.position.x;
-        var particleDistanceY = darkParticle.position.y - canvasParticle.position.y;
+        if(canvasParticle.applyForce == true) {
+            var particleDistanceX = darkParticle.position.x - canvasParticle.position.x;
+            var particleDistanceY = darkParticle.position.y - canvasParticle.position.y;
 
-        var particleDistance = Math.sqrt(particleDistanceX * particleDistanceX + particleDistanceY * particleDistanceY);
+            var particleDistance = Math.sqrt(particleDistanceX * particleDistanceX + particleDistanceY * particleDistanceY);
 
-        //if(particleDistance < 200) {
-        var forceVector = {
-            x: particleDistanceX * 15000 / (particleDistance * particleDistance * particleDistance),
-            y: particleDistanceY * 15000 / (particleDistance * particleDistance * particleDistance)
-        };
-        canvasParticle.speed.x -= forceVector.x;
-        canvasParticle.speed.y -= forceVector.y;
-        //}
+            var forceVector = {
+                x: particleDistanceX * 15000 / (particleDistance * particleDistance * particleDistance),
+                y: particleDistanceY * 15000 / (particleDistance * particleDistance * particleDistance)
+            };
+            canvasParticle.speed.x -= forceVector.x;
+            canvasParticle.speed.y -= forceVector.y;
+        }
 
     };
 
@@ -139,53 +130,17 @@ ParticleGenerator = (function () {
 
         };
     };
-    /*
 
-    var createSmashPixel = function () {
-        drawCanvasPixel(smashParticle.position, smashParticle.size, smashParticle.ticksLeft, smashParticle.type);
-        applyGravity(smashParticle);
-        applySpeed(smashParticle);
-    }
-
-
-    var createSmashParticle = function (x, y) {
-        var smashParticle = new Particle();
-        smashParticle.position.x = x;
-        smashParticle.position.y = y;
-        smashParticle.speed.x = (Math.random() - 1) * 10;
-        smashParticle.speed.y = (Math.random() - 1) * 10;
-        smashParticle.size.x = 10;
-        smashParticle.size.y = 10;
-        smashParticle.type = 'smash';
-        smashParticle.ticksLeft = 10;// * Math.random();
-        return smashParticle;
-    }
-
-    var addSmashParticles = function () {
-        for (var i = 0; i < 10; i++) {
-            var canvasParticle = createSmashParticle(player.getPlayerFeetPosition().x, player.getPlayerFeetPosition().y);
-            particleArr.push(canvasParticle);
-        }
-    }
-
-    var particlesSmash = function () {
-        if (player.isSmashing) {
-            setInterval(createSmashPixel, 20);
-            addSmashParticles();
-        }
-    }
-    setInterval(particlesSmash, 80);
-
-*/
-    var createParticle = function (x, y, color) {
+    var createParticle = function (x, y, color, applyForce, sizeX, sizeY, speedX, speedY) {
         var particle = new Particle();
         particle.color = color;
+        particle.applyForce = applyForce;
         particle.position.x = x;
         particle.position.y = y;
-        particle.speed.x = (Math.random() - 0.5) * 20;
-        particle.speed.y = (Math.random() - 0.5) * 20;
-        particle.size.x = 3;
-        particle.size.y = 6;
+        particle.speed.x = speedX;
+        particle.speed.y = speedY;
+        particle.size.x = sizeX;
+        particle.size.y = sizeY;
         particle.ticksLeft = 10 + 100;// * Math.random();
         return particle;
     }
@@ -208,15 +163,20 @@ ParticleGenerator = (function () {
     };
 
     var addParticles = function () {
-        for (var genNum = 0; genNum < generators.length; genNum ++) {
+        for (var genNum = 0; genNum < generators.length; genNum++) {
             var generator = generators[genNum];
-            if(generator.getTicksLeft() > 0) {
+            if (generator.getTicksLeft() > 0) {
                 var amount = generator.getAmount();
                 for (var i = 0; i < amount; i++) {
                     var canvasParticle = createParticle(
                         generator.getStartX(),
                         generator.getStartY(),
-                        generator.getColor()
+                        generator.getColor(),
+                        generator.applyForce(),
+                        generator.getSizeX(),
+                        generator.getSizeY(),
+                        generator.getSpeedX(),
+                        generator.getSpeedY()
                     );
                     particleArr.push(canvasParticle);
                 }
@@ -226,9 +186,9 @@ ParticleGenerator = (function () {
         // TODO: remove dead generators
 
         /*for (var i = 0; i < 100; i++) {
-            var canvasParticle = createParticle(Math.random() * canvasArea.width, 0);
-            particleArr.push(canvasParticle);
-        }*/
+         var canvasParticle = createParticle(Math.random() * canvasArea.width, 0);
+         particleArr.push(canvasParticle);
+         }*/
     }
 
     var tickFunction = createTickFunction();
@@ -257,37 +217,52 @@ ParticleGenerator = (function () {
 
 // rain:
 ParticleGenerator.addGenerator({
-    getStartX: function () {return Math.random() * 700;}, // TODO: dynamically set width
-    getStartY: function () {return 0;},
-    getAmount: function () {return 100;},
-    getTicksLeft: function () {return 1;},
-    getColor: function () {return '#0B0B61';}
+    getStartX: function () {
+        return Math.random() * map.width;
+    }, // TODO: dynamically set width
+    getStartY: function () {
+        return 0;
+    },
+    getAmount: function () {
+        return 100;
+    },
+    getTicksLeft: function () {
+        return 1;
+    },
+    getColor: function () {
+        return '#0B0B61';
+    },
+    applyForce: function() {
+        return true;
+    },
+    getSizeX: function(){
+        return 3;
+    },
+    getSizeY: function(){
+        return 6;
+    },
+    getSpeedX: function() {
+        return (Math.random() - 0.5) * 20;
+    },
+    getSpeedY: function() {
+        return (Math.random() - 0.5) * 20;
+    }
 });
 
 // smash particles:
-ParticleGenerator.addGenerator({
-    _ticksLeft: 100,
-    getStartX: function () {return 200;},
-    getStartY: function () {return 300;},
-    getAmount: function () {return 100;},
-    getTicksLeft: function () {
-        this._ticksLeft --;
-        return this._ticksLeft;
-    },
-    getColor: function () {return 'white';}
-});
 
-// TODO: wyciągnąć ze środka prędkość startową, rozmiar particli
+
+// TODO: wyciągnąć ze środka prędkość startową, rozmiar particli i MAPA!!!
 /*
-// nyan cat:
-ParticleGenerator.addGenerator({
-    _ticksLeft: 100,
-    getStartX: function () {return pozycjaXDupyHulka - 30;},
-    getStartY: function () {return pozycjaYDupyHulka;},
-    getAmount: function () {return 100;},
-    getTicksLeft: function () {
-        this._ticksLeft --;
-        return this._ticksLeft;
-    }
-});
-*/
+ // nyan cat:
+ ParticleGenerator.addGenerator({
+ _ticksLeft: 100,
+ getStartX: function () {return pozycjaXDupyHulka - 30;},
+ getStartY: function () {return pozycjaYDupyHulka;},
+ getAmount: function () {return 100;},
+ getTicksLeft: function () {
+ this._ticksLeft --;
+ return this._ticksLeft;
+ }
+ });
+ */
