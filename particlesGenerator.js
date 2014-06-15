@@ -147,7 +147,7 @@ ParticleGenerator = (function () {
 
     var createDarkParticle = function (x, y) {
         var darkParticle = new DarkParticle();
-        console.log(darkParticle);
+        //console.log(darkParticle);
         darkParticle.position.x = x;
         darkParticle.position.y = y;
         darkParticle.size.x = 10;

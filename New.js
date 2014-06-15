@@ -22,7 +22,8 @@ var player = {
 		smashHight: 8,
 		strength: 20
 	},
-	isSmashing: false
+	isSmashing: false,
+    isSmashingFront: false
 };
 
 var playerMoveClasses = ["player playerMove1", "player playerMove2", "player playerMove3", "player playerMove4"]
@@ -40,7 +41,7 @@ var setPlayerLook = function(player) {
 	}else if (player.isSmashing == true) {
 		document.getElementById("player").className = "player playerSmash"
 	}
-}
+};
 
 
 
@@ -99,11 +100,14 @@ var applySpeed = function(player) {
 var isPositionAllowed = function(x, y) {
 	var xMapPosition = Math.floor((x + player.width/2) / rozmiarPola)
 	var yMapPosition = Math.floor((y + player.height*0.70) / rozmiarPola)
-	if (mapTiles[yMapPosition][xMapPosition] == ".") {
-		return true
-	}else {
-		return false
-	}
+	if(mapTiles[yMapPosition] != undefined && mapTiles[yMapPosition][xMapPosition] != undefined){
+        if (mapTiles[yMapPosition][xMapPosition] == ".") {
+            return true
+        }else {
+            return false
+        }
+    }
+
 };
 
 
@@ -142,14 +146,17 @@ var handleKeyPressed = function(e) {
 				moveRight();
 				e.preventDefault();
 				break;
-			case keyCode.space:
+			case keyCode.up:
 				jump();
 				e.preventDefault();
 				break;
-			case keyCode.down: 
+			case keyCode.space:
 				if(canSmash(player)) {
 					player.isSmashing = true
-				};
+				}else {
+                    player.isSmashingFront = true;
+                    frontSmash(player.position);
+                }
 				e.preventDefault();
 				break;
 		}
@@ -171,6 +178,57 @@ var applyFriction = function(player) {
 		player.speed.x = 0;
 	}
 };
+
+var frontSmash = function(position) {
+    var playerY = Math.floor(position.y / rozmiarPola);
+    var playerX = Math.floor(position.x / rozmiarPola);
+    //console.log(mapTiles[playerY][playerX + 2 * player.width]);
+    if(player.direction == 1 && mapTiles[Math.round(playerY + player.height/4)][Math.round(playerX + 5)] == 'w'){
+
+
+        for (var y = -15; y <25; y++) {
+            for (var x = 0; x < 40; x++) {
+                var yToRemove = playerY+y;
+                var xToRemove = playerX + x;
+                var vector = Math.sqrt((yToRemove - playerY)*(yToRemove - playerY) + (xToRemove - playerX)*(xToRemove - playerX))
+                var row = mapTiles[yToRemove];
+                if (vector < 15) {
+                    var updatedRow = replaceCharAt(row, '.', xToRemove);
+                    mapTiles[yToRemove] = updatedRow;
+                }
+
+            }
+
+        }
+        ParticleGenerator.addGenerator({
+            _ticksLeft: 2,
+            getStartX: function () {return position.x + player.width;},
+            getStartY: function () {return position.y + player.height/2;},
+            getAmount: function () {return 5;},
+            getTicksLeft: function () {
+                this._ticksLeft --;
+                return this._ticksLeft;
+            },
+            getColor: function () {return 'black';},
+            applyForce: function() {return false;},
+            getSizeX: function(){
+                return 12;
+            },
+            getSizeY: function(){
+                return 14;
+            },
+            getSpeedX: function() {
+                return (Math.random() - 0.5) * 20;
+            },
+            getSpeedY: function() {
+                return (Math.random() - 1) * 20;
+            }
+        });
+        drawCanvasLines();
+        //mapRefresh();
+    }
+    player.isSmashingFront = false
+}
 
 var hulkSmash = function(position) {
 	player.isSmashing = false;
@@ -258,6 +316,10 @@ var canSmash = function(player) {
 	}
 }
 
+
+
+
+
 var replaceCharAt = function(string, character, index) {
 	return string.substr(0, index) + character + string.substr(index + 1);
 };
@@ -266,7 +328,7 @@ var tick = function() {
 	applyGravity(player);
 	applySpeed(player);
 	if (isUnderFloor(player)){
-		console.log(player);
+		//console.log(player);
 		player.speed.y = 0;
 		player.setFeetPositionY(getFloorPositionY()) ;
 		
