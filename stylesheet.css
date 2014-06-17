@@ -103,6 +103,11 @@ div
 	background: url("HulksheetSNES_2BW.png");
 	background-position: -1023px -74px;
 }
+.playerSmashFront
+{
+    background: url("HulksheetSNES_2BW.png");
+    background-position: -1147px -395px;
+}
 .ground
 {
 	background: url("basic_ground_tileset.png");
